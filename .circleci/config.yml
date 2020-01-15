@@ -6,45 +6,7 @@ version: 2
   steps:
     - checkout
     - run:
-        command: |
-          # setup qemu/variables
-          docker run --rm --privileged multiarch/qemu-user-static:register --reset > /dev/null
-
-          IMAGE="${IMAGE:-$CIRCLE_PROJECT_REPONAME}"
-          HUB_NAMESPACE="${HUB_NAMESPACE:-$CIRCLE_PROJECT_USERNAME}"
-          [[ $CIRCLE_PROJECT_USERNAME == "pi-hole" ]] && HUB_NAMESPACE="pihole"
-          [[ $IMAGE != *"/"* ]] && IMAGE="${HUB_NAMESPACE}/${IMAGE}"
-          [[ $IMAGE != *":"* ]] && IMAGE="${IMAGE}:$CIRCLE_JOB"
-          if [[ -n "$CIRCLE_TAG" ]]; then
-              # remove latest tag if used
-              IMAGE="${IMAGE/:latest/:}"
-              # and tack the github tag (version) on the front of the tag. image:arch = image:v1.0-arch
-              IMAGE="${IMAGE/:/:${CIRCLE_TAG}-}"
-              # latest gets a trailing slash, remove it
-              IMAGE="${IMAGE/%-/}"
-          fi
-
-          # generate and build dockerfile
-          pip install -q --upgrade pip
-          pip install -q -r requirements.txt
-          ./Dockerfile.py --arch=${CIRCLE_JOB} -v
-          docker images
-          # run docker build & tests
-          # 2 parallel max b/c race condition with docker fixture (I think?)
-          py.test -vv -n 2 -k "${CIRCLE_JOB}" ./test/
-
-          # push image
-          if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
-              if [[ -n "$CIRCLE_TAG" ]] ; then
-                  echo "Building a tag: $CIRCLE_TAG"
-                  version="$CIRCLE_TAG"
-                  # TODO: write script to get all releases, see if our tag is newest and tell deploy script to update the latest tag (for manfiest push stage only)
-                  # python3 latest_version_check.py && latest="true"
-              fi
-              echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
-              ./deploy_docker.sh
-          fi
-
+        command: ./circle.sh
 
 jobs:
   amd64:
@@ -55,6 +17,18 @@ jobs:
     <<: *job_template
   armel:
     <<: *job_template
+  deploy:
+    require:
+      - arm64
+      - aarch64
+      - armhf
+      - armel
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run:
+          command: ./deploy_docker.sh
 
 
 
