@@ -3,15 +3,16 @@ version: 2
 .job_template: &job_template
   machine:
     enabled: true
+    docker_layer_caching: true
   steps:
     - checkout
     - run:
-        command: ./circle.sh
+        command: ./circle-test.sh
 
 jobs:
   amd64:
     <<: *job_template
-  aarch64:
+  arm64:
     <<: *job_template
   armhf:
     <<: *job_template
@@ -19,16 +20,17 @@ jobs:
     <<: *job_template
   deploy:
     require:
+      - amd64
       - arm64
-      - aarch64
       - armhf
       - armel
     machine:
       enabled: true
+      docker_layer_caching: true
     steps:
       - checkout
       - run:
-          command: ./deploy_docker.sh
+          command: ./circle-deploy.sh
 
 
 

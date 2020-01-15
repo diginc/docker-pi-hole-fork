@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """ Dockerfile.py - generates and build dockerfiles
 
 Usage:
@@ -9,7 +9,7 @@ Options:
     --no-cache      Build without using any cache data
     --no-generate   Skip generating Dockerfiles from template
     --hub_tag=<tag> What the Docker Hub Image should be tagged as [default: None]
-    --arch=<arch>   What Architecture(s) to build   [default: amd64 armel armhf aarch64]
+    --arch=<arch>   What Architecture(s) to build   [default: amd64 armel armhf arm64]
     -v              Print docker's command output   [default: False]
     -t              Print docker's build time       [default: False]
 
@@ -55,11 +55,11 @@ images = {
         },
         {
             'base': 'multiarch/debian-debootstrap:armhf-stretch-slim',
-            'arch': 'armhf'
+            'arch': 'arm'
         },
         {
             'base': 'multiarch/debian-debootstrap:arm64-stretch-slim',
-            'arch': 'aarch64'
+            'arch': 'arm64'
         }
     ]
 }
