@@ -72,7 +72,7 @@ def generate_dockerfiles(args):
     for version, archs in images.items():
         for image in archs:
             if image['arch'] not in args['--arch']:
-                return
+                continue
             s6arch = image['arch']
             if image['arch'] == 'armel':
                 s6arch = 'arm'
