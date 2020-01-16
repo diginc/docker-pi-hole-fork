@@ -7,6 +7,7 @@ set -eux
 docker run --rm --privileged multiarch/qemu-user-static:register --reset > /dev/null
 
 # generate and build dockerfile
+python --version
 pip install -q --upgrade pip
 pip install -q -r requirements.txt
 ./Dockerfile.py --arch=${CIRCLE_JOB} -v --hub_tag=${IMAGE}
