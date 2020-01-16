@@ -41,7 +41,7 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      - aarch64:
+      - arm64:
           filters:
             tags:
               only: /^v.*/

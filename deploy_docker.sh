@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -ex
 # Script for manually pushing the docker arm images for pi-hole org members only
 # (no one else has docker repo permissions)
 if [ ! -f ~/.docker/config.json ] ; then

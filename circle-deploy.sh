@@ -1,4 +1,5 @@
-#!/usr/bin/env bash -ex
+#!/usr/bin/env bash
+set -ex
 # Circle CI Job for merging/deploying all architectures (post-test passing)
 . circle_vars.sh
 
