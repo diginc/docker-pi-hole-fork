@@ -15,3 +15,6 @@ docker images
 # TODO: Add junitxml output and have circleci consume it
 # 2 parallel max b/c race condition with docker fixture (I think?)
 py.test -vv -n 2 -k "${CIRCLE_JOB}" ./test/
+
+echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
+docker push $IMAGE

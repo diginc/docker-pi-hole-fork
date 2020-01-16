@@ -3,7 +3,6 @@ version: 2
 .job_template: &job_template
   machine:
     enabled: true
-    docker_layer_caching: true
   steps:
     - checkout
     - run:
@@ -27,7 +26,6 @@ jobs:
       - armel
     machine:
       enabled: true
-      docker_layer_caching: true
     steps:
       - checkout
       - run:
