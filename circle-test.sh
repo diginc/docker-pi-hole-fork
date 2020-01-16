@@ -1,4 +1,5 @@
-#!/usr/bin/env bash -ex
+#!/usr/bin/env bash
+set -eux
 # Circle CI Job for single architecture
 
 # setup qemu/variables
