@@ -9,6 +9,7 @@ version: 2
     - run:
         command: ./circle-test.sh
 
+
 jobs:
   amd64:
     <<: *job_template
