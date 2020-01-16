@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 # Circle CI Job for merging/deploying all architectures (post-test passing)
-. circle_vars.sh
+. circle-vars.sh
 
 annotate() {
     local base=$1

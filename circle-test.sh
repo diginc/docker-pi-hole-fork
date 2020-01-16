@@ -3,7 +3,7 @@ set -eux
 # Circle CI Job for single architecture
 
 # setup qemu/variables
-. circle_vars.sh
+. circle-vars.sh
 docker run --rm --privileged multiarch/qemu-user-static:register --reset > /dev/null
 
 # generate and build dockerfile
