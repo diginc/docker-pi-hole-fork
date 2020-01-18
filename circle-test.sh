@@ -7,10 +7,9 @@ set -eux
 docker run --rm --privileged multiarch/qemu-user-static:register --reset > /dev/null
 
 # generate and build dockerfile
-python --version
-pip install -q --upgrade pip
-pip install -q -r requirements.txt
-./Dockerfile.py --arch=${CIRCLE_JOB} -v --hub_tag=${IMAGE}
+# docker run --rm -w /app -v $(pwd):/app kennethreitz/pipenv ./Dockerfile.py --arch=${CIRCLE_JOB} -v --hub_tag=${IMAGE}
+docker build -t image_pipenv -f Dockerfile_build .
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock image_pipenv pipenv run ./Dockerfile.py
 docker images
 
 # run docker build & tests
