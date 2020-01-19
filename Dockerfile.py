@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """ Dockerfile.py - generates and build dockerfiles
 
 Usage:

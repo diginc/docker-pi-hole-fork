@@ -1,8 +1,18 @@
 export DOCKER_CLI_EXPERIMENTAL=enabled
+CIRCLE_JOB="${CIRCLE_JOB:-}"
+ARCH="${ARCH:-$CIRCLE_JOB}"
+if [[ -z "$ARCH" ]] ; then
+    echo "Defaulting arch to amd64"
+    ARCH="amd64"
+fi
+IMAGE="${IMAGE:-${CIRCLE_PROJECT_REPONAME}}"
+if [[ -z "$IMAGE" ]] ; then
+    echo "Defaulting image name to pihole"
+    IMAGE="pihole"
+fi
 
 # The docker image will  match the github repo path by default but is overrideable with CircleCI environment
 # IMAGE Overridable by Circle environment, including namespace (e.g. IMAGE=bobsmith/test-img:latest)
-IMAGE="${IMAGE:-${CIRCLE_PROJECT_REPONAME}}"
 HUB_NAMESPACE="${HUB_NAMESPACE:-$CIRCLE_PROJECT_USERNAME}"
 [[ $CIRCLE_PROJECT_USERNAME == "pi-hole" ]] && HUB_NAMESPACE="pihole" # Custom mapping for namespace
 [[ $IMAGE != *"/"* ]] && IMAGE="${HUB_NAMESPACE}/${IMAGE}" # If missing namespace, add one
