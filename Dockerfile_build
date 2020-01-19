@@ -8,11 +8,11 @@ RUN apk --update add python3 python3-dev gcc make \
     && pip3 install -U pip pipenv
 
 
-# -v "$(pwd):/app" your workspace at runtime
-RUN set -ex && mkdir /app
-WORKDIR /app
-ENV PIPENV_CACHE_DIR /app/.pipenv
+# -v "$(pwd):/ws" your workspace at runtime
+RUN set -ex && mkdir /ws
+WORKDIR /ws
+ENV PIPENV_CACHE_DIR /ws/.pipenv
 
-RUN echo "set -ex && pipenv install --system && sh /app/Dockerfile.sh && \$@" > /usr/local/bin/entrypoint.sh
+RUN echo "set -ex && pipenv install --system && sh /ws/Dockerfile.sh && \$@" > /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 ENTRYPOINT entrypoint.sh

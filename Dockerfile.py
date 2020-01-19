@@ -29,7 +29,7 @@ THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 base_vars = {
     'name': 'pihole/pihole',
     'maintainer' : 'adam@diginc.us',
-    's6_version' : 'v1.21.7.0',
+    's6_version' : 'v1.22.1.0',
 }
 
 os_base_vars = {
