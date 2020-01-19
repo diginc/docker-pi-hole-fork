@@ -111,7 +111,7 @@ def run_and_stream_command_output(command, args):
                 print(line, end='')
     build_result.wait()
     if build_result.returncode != 0:
-        print("     ::: Building {} encountered an error".format(dockerfile))
+        print("     ::: Error running".format(command))
         print(build_result.stderr)
 
 
@@ -119,6 +119,7 @@ def build(docker_repo, arch, args):
     dockerfile = 'Dockerfile_{}'.format(arch)
     repo_tag = '{}:{}_{}'.format(docker_repo, __version__, arch)
     cached_image = '{}/{}'.format('pihole', repo_tag)
+    print(" ::: Building {}".format(repo_tag))
     time=''
     if args['-t']:
         time='time '
@@ -139,8 +140,9 @@ def build(docker_repo, arch, args):
 
 
 if __name__ == '__main__':
-    args = docopt(__doc__, version='Dockerfile 1.0')
-    # print args
+    args = docopt(__doc__, version='Dockerfile 1.1')
+    if args['-v']:
+        print(args)
 
     generate_dockerfiles(args)
     build_dockerfiles(args)
