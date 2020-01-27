@@ -47,19 +47,23 @@ images = {
     __version__: [
         {
             'base': 'pihole/debian-base:latest',
-            'arch': 'amd64'
+            'arch': 'amd64',
+            's6arch': 'amd64',
         },
         {
             'base': 'multiarch/debian-debootstrap:armel-stretch-slim',
-            'arch': 'armel'
+            'arch': 'armel',
+            's6arch': 'arm',
         },
         {
             'base': 'multiarch/debian-debootstrap:armhf-stretch-slim',
-            'arch': 'arm'
+            'arch': 'arm',
+            's6arch' : 'arm',
         },
         {
             'base': 'multiarch/debian-debootstrap:arm64-stretch-slim',
-            'arch': 'arm64'
+            'arch': 'arm64',
+            's6arch' : 'aarch64',
         }
     ]
 }
@@ -73,9 +77,7 @@ def generate_dockerfiles(args):
         for image in archs:
             if image['arch'] not in args['--arch']:
                 continue
-            s6arch = image['arch']
-            if image['arch'] == 'armel':
-                s6arch = 'arm'
+            s6arch = image['s6arch'] if image['s6arch'] else image['arch']
             merged_data = dict(
                 list({ 'version': version }.items()) +
                 list(base_vars.items()) +

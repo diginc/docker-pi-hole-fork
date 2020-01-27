@@ -16,14 +16,14 @@ jobs:
     <<: *job_template
   armhf:
     <<: *job_template
-  #armel:
-  #  <<: *job_template
+  armel:
+    <<: *job_template
   deploy:
     require:
       - amd64
       - arm64
       - armhf
-      #- armel
+      - armel
     machine:
       enabled: true
     steps:
@@ -49,7 +49,7 @@ workflows:
           filters:
             tags:
               only: /^v.*/
-      #- armel:
-      #    filters:
-      #      tags:
-      #        only: /^v.*/
+      - armel:
+          filters:
+            tags:
+              only: /^v.*/
