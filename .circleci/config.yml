@@ -21,7 +21,7 @@ jobs:
   armel:
     <<: *job_template
   deploy:
-    require:
+    requires:
       - amd64
       - arm64
       - armhf
