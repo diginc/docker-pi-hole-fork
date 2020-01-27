@@ -21,14 +21,17 @@ annotate() {
 docker images
 
 # Keep in sync with circle-ci job names
-declare -A arch_map=( ["amd64"]="amd64" ["armhf"]="arm" ["arm64"]="arm64")
-IMAGES=()
+#declare -A arch_map=( ["amd64"]="amd64" ["armhf"]="arm" ["arm64"]="arm64")
+#IMAGES=()
 
 # push image when not running a PR
 if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
     echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
-    for TAG in ${!arch_map[@]}; do
-       docker images | grep $TAG
+    ls -lat ./ci-workspace/
+    cd ci-workspace
+    for image in *; do
+       docker docker pull $TAG
     done
+    docker images
 fi
 
