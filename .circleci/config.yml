@@ -5,6 +5,8 @@ version: 2
     enabled: true
   steps:
     - checkout
+    #- attach_workspace:
+    #    at: ./ci-workspace/
     - run:
         command: ./circle-test.sh
     - persist_to_workspace:
