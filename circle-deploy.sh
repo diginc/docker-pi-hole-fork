@@ -28,9 +28,9 @@ docker images
 if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
     echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
     ls -lat ./ci-workspace/
-    for image in $(cat ./ci-workspace/images); do
-       docker docker pull $TAG
+    cd ci-workspace
+    for i in *; do
+       docker docker pull $(cat $i)
     done
-    docker images
 fi
 

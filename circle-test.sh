@@ -26,4 +26,4 @@ docker run --rm \
 docker images
 echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
 docker push $IMAGE
-echo "$IMAGE" >> ./ci-workspace/images
+echo "$IMAGE" >> ./ci-workspace/$ARCH
