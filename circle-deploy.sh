@@ -6,14 +6,14 @@ set -ex
 annotate() {
     local base=$1
     local image=$2
-    local arch=${image##*_}
-    local docker_arch=${arch_map[$arch]}
+    local arch=$3
+    local annotate_flags=${annotate_map[$arch]}
 
     if [ -z $docker_arch ]; then
         echo "Unknown arch in docker tag: ${arch}"
         exit 1
     else
-        $dry docker manifest annotate ${base} ${image} --os linux --arch ${docker_arch}
+        $dry docker manifest annotate ${base} ${image} --os linux ${annotate_flags}
     fi
 }
 
@@ -21,16 +21,24 @@ annotate() {
 docker images
 
 # Keep in sync with circle-ci job names
-#declare -A arch_map=( ["amd64"]="amd64" ["armhf"]="arm" ["arm64"]="arm64")
+declare -A annotate_map=( 
+    ["amd64"]="--arch amd64" 
+    ["armel"]="--arch arm --variant v6" 
+    ["armhf"]="--arch arm --variant v7" 
+    ["arm64"]="--arch arm64 --variant v8"
+)
 #IMAGES=()
 
 # push image when not running a PR
+multiarch_image=""
 if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
     echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
     ls -lat ./ci-workspace/
     cd ci-workspace
-    for i in *; do
-       docker docker pull $(cat $i)
+    for arch in *; do
+        arch_image=$(cat $arch)
+        docker pull $arch_image
+        annotate "$MULTIARCH_IMAGE" "$arch_image" "$arch"
     done
+    docker push "$MULTIARCH_IMAGE"
 fi
-
