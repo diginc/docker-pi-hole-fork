@@ -7,14 +7,9 @@ annotate() {
     local base=$1
     local image=$2
     local arch=$3
-    local annotate_flags=${annotate_map[$arch]}
+    local annotate_flags="${annotate_map[$arch]}"
 
-    if [ -z $docker_arch ]; then
-        echo "Unknown arch in docker tag: ${arch}"
-        exit 1
-    else
-        $dry docker manifest annotate ${base} ${image} --os linux ${annotate_flags}
-    fi
+    $dry docker manifest annotate ${base} ${image} --os linux ${annotate_flags}
 }
 
 # Confirm docker layer sharing worked
