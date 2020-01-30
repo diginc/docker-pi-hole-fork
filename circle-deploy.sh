@@ -23,6 +23,7 @@ declare -A annotate_map=(
 # push image when not running a PR
 if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
     images=()
+    mkdir -p ~/.docker
     echo "{}" | jq '.experimental="enabled"' | tee ~/.docker/config.json
     echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
     ls -lat ./ci-workspace/
