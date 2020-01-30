@@ -24,8 +24,6 @@ jobs:
   armel:
     <<: *job_template
   deploy:
-    machine:
-      enabled: true
     steps:
       - setup_remote_docker:
           version: 18.06.0-ce
