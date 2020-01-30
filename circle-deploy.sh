@@ -33,7 +33,7 @@ if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
         images+=($arch_image)
     done
 
-    docker manifest create --amend $MULTIARCH_IMAGE ${images[*]}
+    docker manifest create $MULTIARCH_IMAGE ${images[*]}
     for arch in *; do
         arch_image=$(cat $arch)
         docker pull $arch_image
