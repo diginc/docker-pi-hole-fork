@@ -24,6 +24,7 @@ declare -A annotate_map=(
 if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
     images=()
     echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
+    cat ~/.docker/config.json | jq '.experimental="enabled"' | tee ~/.docker/config.json
     ls -lat ./ci-workspace/
     cd ci-workspace
 

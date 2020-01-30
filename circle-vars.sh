@@ -1,6 +1,5 @@
 set -a
 
-DOCKER_CLI_EXPERIMENTAL=enabled
 CIRCLE_JOB="${CIRCLE_JOB:-}"
 ARCH="${ARCH:-$CIRCLE_JOB}"
 if [[ -z "$ARCH" ]] ; then
