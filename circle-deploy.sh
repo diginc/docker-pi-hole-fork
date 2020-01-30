@@ -25,6 +25,7 @@ if [[ "$CIRCLE_PR_NUMBER" == "" ]]; then
     images=()
     mkdir -p ~/.docker
     echo "{}" | jq '.experimental="enabled"' | tee ~/.docker/config.json
+    docker info
     echo $DOCKERHUB_PASS | docker login --username=$DOCKERHUB_USER --password-stdin
     ls -lat ./ci-workspace/
     cd ci-workspace
